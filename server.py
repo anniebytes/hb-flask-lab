@@ -13,7 +13,7 @@ AWESOMENESS = [
     'oh-so-not-meh', 'brilliant', 'ducky', 'coolio', 'incredible',
     'wonderful', 'smashing', 'lovely']
 DISSES = [
-    'smelly', 'mean', 'not nice']
+    'smelly', 'mean', 'not&nbspvery&nbspnice']
 
 # DISSES = [
 #     'smelly']
@@ -56,6 +56,7 @@ def say_hello():
       </head>
       <body>
         <h1>Hi There!</h1>
+        
         <form action="/greet" method="POST">
           Compliment someone <br>
           Name: <input type="text" name="person">
@@ -64,6 +65,8 @@ def say_hello():
           </select>
           <input type="submit" value="Submit">
         </form>
+
+        <br>
         <form action="/diss" method="GET">
           Diss someone <br>
           Name: <input type="text" name="person">
@@ -101,7 +104,16 @@ def greet_person():
 def diss():
     """Get user by name."""
     player = request.args.get("person")
-    diss = request.args.get("diss")
+    diss_list = request.args.getlist("diss")
+    print(diss_list)
+
+    diss_list_string = ""
+    for diss in enumerate(diss_list):
+      if diss[0] < len(diss_list) -1:
+        diss_list_string += f"{diss[1]}, "
+      else: 
+        diss_list_string += f"and {diss[1]}"
+  
     return f"""
     <!doctype html>
     <html>
@@ -109,7 +121,7 @@ def diss():
         <title>A Compliment</title>
       </head>
       <body>
-        Hi, {player}! I think you're {diss}! boooo
+        Hi, {player}! I think you're {diss_list_string}! boooo
       </body>
     </html>
     """ 
